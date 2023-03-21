@@ -1,0 +1,27 @@
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns="http://www.w3.org/1999/xhtml">
+    <!-- Deal with future Thymeleaf attributes. -->
+    
+    <head>
+        <title>Test</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    
+    <body>
+    <!-- th:text atribute -->
+        <p>Number: <span th:text="${number}"></span></p>
+        <p>Name: <span th:text="${firstName}"></span></p>
+    </body>
+    
+    <!-- Form action will call the mapping created in the controller -->
+    <form action="testForm" method="POST">
+    <!-- Form name Inputs name is associated to what is typed into the input -->
+         New Number: <input type="text" name="formNumber"/> <br/>
+         New Name: <input type="text" name="formFirstName"/><br/>
+         <button type="submit">Submit</button>
+            <!-- Only type submit will POST the data back to the controller-->
+    </form>
+    
+    
+</html>
