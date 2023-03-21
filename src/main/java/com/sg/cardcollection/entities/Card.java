@@ -1,6 +1,9 @@
 package com.sg.cardcollection.entities;
 
+import java.sql.Array;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Card {
@@ -10,7 +13,7 @@ public class Card {
 	private LocalDate releaseDate;
 	private String layout;
 	private String imageUri;
-	private List<String> manaCost;
+	private List<String> manaCost;// entered as {3}{W}{W}
 	private String cardType;
 	private List<String> colors;
 	private List<String> keywords;
@@ -33,6 +36,10 @@ public class Card {
 		this.keywords = keywords;
 		this.cardSet = cardSet;
 		this.rarity = rarity;
+	}
+
+
+	public Card() {
 	}
 
 
@@ -89,10 +96,29 @@ public class Card {
 	public List<String> getManaCost() {
 		return manaCost;
 	}
+	
+	public String getManaCostAsString() {
+		String formattedMana = "";
+		for(String mana : this.manaCost) {
+			formattedMana = formattedMana + "{"+ mana + "}";
+		}
+		return formattedMana;
+	}
 
 
 	public void setManaCost(List<String> manaCost) {
 		this.manaCost = manaCost;
+	}
+	
+	public void setManaCost(String manaCost) {
+		String[] allMana = manaCost.split("\\{|\\}");
+		this.manaCost = new ArrayList<String>();
+
+		for (String mana : allMana) {
+		    if (!mana.isEmpty()) {
+		        this.manaCost.add(mana);
+		    }
+		}
 	}
 
 
@@ -101,7 +127,7 @@ public class Card {
 	}
 
 
-	public void setType(String cardType) {
+	public void setCardType(String cardType) {
 		this.cardType = cardType;
 	}
 
@@ -114,6 +140,15 @@ public class Card {
 	public void setColors(List<String> colors) {
 		this.colors = colors;
 	}
+	
+	public void setColors(String colors) {
+		String[] allColors = colors.split(",");
+		this.colors = new ArrayList<String>();
+
+		for (String color : allColors) {
+		    this.colors.add(color);
+		}
+	}
 
 
 	public List<String> getKeywords() {
@@ -123,6 +158,15 @@ public class Card {
 
 	public void setKeywords(List<String> keywords) {
 		this.keywords = keywords;
+	}
+	
+	public void setKeywords(String keywords) {
+		String[] allKeywords = keywords.split(",");
+		this.keywords = new ArrayList<String>();
+
+		for (String keyword : allKeywords) {
+		    this.keywords.add(keyword);
+		}
 	}
 
 

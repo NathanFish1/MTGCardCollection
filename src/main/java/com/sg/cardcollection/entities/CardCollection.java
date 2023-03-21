@@ -13,6 +13,10 @@ public class CardCollection {
 	private String collectionName;
 	private CollectionType collectionType; //Maybe enum
 	
+	public CardCollection() {
+		
+	}
+	
 	public CardCollection(int id, String collectionName, CollectionType collectionType) {
 		super();
 		this.id = id;
