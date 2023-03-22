@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import com.sg.cardcollection.entities.Card;
 
+@Repository
 public class CardDaoDB implements CardDao {
 	
 	@Autowired
@@ -89,10 +91,15 @@ public class CardDaoDB implements CardDao {
 
 	@Override
 	public void deleteCardFromCollection(String cardId, int collectionId) {
+		//delete card from collection
 		final String DELETE_CARD_FROM_COLLECTION = "DELETE FROM collection_card WHERE collectionId = ? and cardId = ?";
 		jdbcTemplate.update(DELETE_CARD_FROM_COLLECTION,
 				collectionId,
 				cardId);
+		//delete card data from card table if card is not used in any collections
+		final String DELETE_CARD_THAT_DOESNT_BELONG = "DELETE FROM card "
+				+ "WHERE id NOT IN (SELECT cardId FROM collection_card)";
+		jdbcTemplate.update(DELETE_CARD_THAT_DOESNT_BELONG);
 	}
 	
 	public static final class CardMapper implements RowMapper<Card> {

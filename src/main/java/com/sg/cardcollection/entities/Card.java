@@ -111,13 +111,17 @@ public class Card {
 	}
 	
 	public void setManaCost(String manaCost) {
-		String[] allMana = manaCost.split("\\{|\\}");
-		this.manaCost = new ArrayList<String>();
-
-		for (String mana : allMana) {
-		    if (!mana.isEmpty()) {
-		        this.manaCost.add(mana);
-		    }
+		if(manaCost != null) {
+			String[] allMana = manaCost.split("\\{|\\}");
+			this.manaCost = new ArrayList<String>();
+	
+			for (String mana : allMana) {
+			    if (!mana.isEmpty()) {
+			        this.manaCost.add(mana);
+			    }
+			}
+		} else {
+			this.manaCost = null;
 		}
 	}
 
@@ -142,11 +146,15 @@ public class Card {
 	}
 	
 	public void setColors(String colors) {
-		String[] allColors = colors.split(",");
-		this.colors = new ArrayList<String>();
-
-		for (String color : allColors) {
-		    this.colors.add(color);
+		if(colors != null) {
+			String[] allColors = colors.split(",");
+			this.colors = new ArrayList<String>();
+	
+			for (String color : allColors) {
+			    this.colors.add(color);
+			}
+		} else {
+			this.colors = null;
 		}
 	}
 
@@ -161,12 +169,17 @@ public class Card {
 	}
 	
 	public void setKeywords(String keywords) {
-		String[] allKeywords = keywords.split(",");
-		this.keywords = new ArrayList<String>();
-
-		for (String keyword : allKeywords) {
-		    this.keywords.add(keyword);
+		if(keywords != null) {
+			String[] allKeywords = keywords.split(",");
+			this.keywords = new ArrayList<String>();
+	
+			for (String keyword : allKeywords) {
+			    this.keywords.add(keyword);
+			}
+		} else {
+			this.keywords = null;
 		}
+		
 	}
 
 

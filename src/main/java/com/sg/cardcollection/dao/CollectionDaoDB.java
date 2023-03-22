@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sg.cardcollection.entities.CardCollection;
 import com.sg.cardcollection.entities.CardCollection.CollectionType;
 
+@Repository
 public class CollectionDaoDB implements CollectionDao {
 
 	@Autowired
@@ -40,7 +42,7 @@ public class CollectionDaoDB implements CollectionDao {
 		final String INSERT_COLLECTION = "INSERT INTO collection(collectionName, collectionType) VALUES(?,?)";
 		jdbcTemplate.update(INSERT_COLLECTION,
 				cardCollection.getCollectionName(),
-				cardCollection.getCollectionType());
+				cardCollection.getCollectionType().toString());
 		
 		int newId = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
 		cardCollection.setId(newId);

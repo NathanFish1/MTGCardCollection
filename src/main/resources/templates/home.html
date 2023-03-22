@@ -1,18 +1,91 @@
+<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns="http://www.w3.org/1999/xhtml">
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
     <!-- Deal with future Thymeleaf attributes. -->
     
     <head>
         <title>Home</title>
-        <meta charset="UTF-8"/>
+        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <!-- Bootstrap CSS -->
+    	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     </head>
     
     <body>
-    <!-- th:text atribute -->
-        <p>Its the home screen</p>
-    </body>
- 
+    <p>Its the home screen</p>
+    <div class="container">
+	    <div class="row m-4 border border-dark">
+	        <div class="col text-center m-3">
+	            <table class="table table-striped">
+	                <thead>
+	                <tr>
+	                    <th>ID</th>
+	                    <th>Collection Name</th>
+	                    <th>Collection Type</th>
+	                    <th>View</th>
+	                    <th>Delete</th>
+	                </tr>
+	                </thead>
+	                <tbody>
+	                <tr th:each="CardCollection : ${cardcollections}">
+	                    <td th:text="${CardCollection.getId()}"></td>
+	                    <td th:text="${CardCollection.getCollectionName()}"></td>
+	                    <td th:text="${CardCollection.getCollectionType()}"></td>
+	                    <td><a href="#" th:href="@{/view(id=${CardCollection.getId()})}">View</a></td>
+	                    <td>Delete</td>
+	                </tr>
+	                </tbody>
+	            </table>
+	        </div>
+	    </div>
+    </div>
+    <div class="row m-4 border border-dark">
+	    <div class="col-3 text-center m-3">
+	        <span class="h3">Add Card Collection</span>
+	    </div>
+	    <div class="col-7 text-center m-3">
+	        <form action="addCollection" method="POST">
+	            <div class="form-group row">
+	                <label for="collectionName" class="col-3 col-form-label">
+	                    Collection Name</label>
+	                <div class="col-9">
+	                    <input type="text" name="collectionName"
+	                           id="collectionName" class="form-control"/>
+	                </div>
+	            </div>
+	            <div class="form-group row">
+	                <label for="collectionType" class="col-3 col-form-label">
+	                    Collection Type/Game Mode</label>
+	                <div class="col-9">
+	                    <select id = "collectionType" name ="collectionType"
+	                    	class="form-control">
+	                    	<option value="BASIC">Basic</option>
+	                    	<option value="COMMANDER">Commander</option>
+	                    	<option value="STANDARD">Standard</option>
+	                    </select>
+	                </div>
+	            </div>
+	            <button type="submit" class="btn btn-primary">Add</button>
+	        </form>
+	    </div>
+	</div>
+        
     
+    
+    <!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+	        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+	        crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+	        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+	        crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+	        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+	        crossorigin="anonymous"></script>
+    </body>  
     
 </html>

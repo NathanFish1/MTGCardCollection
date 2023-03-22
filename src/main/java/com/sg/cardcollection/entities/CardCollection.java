@@ -4,7 +4,7 @@ package com.sg.cardcollection.entities;
 public class CardCollection {
 	
 	public enum CollectionType{//Indicate either a full collection of cards, or a collection with a game mode restriction
-		DEFAULT,
+		BASIC,
 		COMMANDER,
 		STANDARD;
 	}
