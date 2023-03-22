@@ -39,7 +39,7 @@ public class CardDaoDB implements CardDao {
 
 	@Override
 	public List<Card> getAllCardsFromCollection(int id) {
-		final String GET_ALL_CARDS_IN_COLLECTION = "SELECT c.id, c.cardName, c.released_at, c.layout, c.image_uri, c.mana_cost, c.type_line, c.colors, c.keywords, c.cardSet, c.rarity "
+		final String GET_ALL_CARDS_IN_COLLECTION = "SELECT c.id, c.cardName, c.layout, c.image_uri, c.mana_cost, c.type_line, c.colors, c.keywords, c.cardSet, c.rarity "
 				+ "FROM card c "
 				+ "JOIN collection_card cc "
 				+ "ON cc.cardId = c.id "
@@ -52,11 +52,10 @@ public class CardDaoDB implements CardDao {
 		final String INSERT_CARD = "INSERT INTO card "
 				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 		jdbcTemplate.update(INSERT_CARD, card.getId(),
-				card.getCardName(),
-				Date.valueOf(card.getReleaseDate()),
+				card.getName(),
 				card.getLayout(),
 				card.getImageUri(),
-				card.getManaCostAsString(),
+				card.getManaCost(),
 				card.getCardType(),
 				String.join(",", card.getColors()),
 				String.join(",", card.getKeywords()),
@@ -108,8 +107,7 @@ public class CardDaoDB implements CardDao {
 		public Card mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Card card = new Card();
 			card.setId(rs.getString("id"));
-			card.setCardName(rs.getString("cardName"));
-			card.setReleaseDate(rs.getObject("released_at", LocalDate.class));
+			card.setName(rs.getString("cardName"));
 			card.setLayout(rs.getString("layout"));
 			card.setImageUri(rs.getString("image_uri"));
 			card.setManaCost(rs.getString("mana_cost"));

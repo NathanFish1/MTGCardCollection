@@ -35,7 +35,7 @@
 	                    <td th:text="${CardCollection.getCollectionName()}"></td>
 	                    <td th:text="${CardCollection.getCollectionType()}"></td>
 	                    <td><a href="#" th:href="@{/view(id=${CardCollection.getId()})}">View</a></td>
-	                    <td>Delete</td>
+	                    <td><a href="#" th:href="@{/deleteCollection(id=${CardCollection.getId()})}">Delete</a></td>
 	                </tr>
 	                </tbody>
 	            </table>

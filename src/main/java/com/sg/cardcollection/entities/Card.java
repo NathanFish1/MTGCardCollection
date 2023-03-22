@@ -5,41 +5,53 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Card {
 
 	private String id;
-	private String cardName;
-	private LocalDate releaseDate;
+	private String name;
 	private String layout;
+	private Map<String, String> image_uris;
 	private String imageUri;
-	private List<String> manaCost;// entered as {3}{W}{W}
-	private String cardType;
-	private List<String> colors;
-	private List<String> keywords;
-	private String cardSet;
+	private String mana_cost;// entered as {3}{W}{W}
+	private String type_line;
+	private String[] colors;
+	private String[] keywords;
+	private String set;
 	private String rarity;
 	
 	
-	public Card(String id, String cardName, LocalDate releaseDate, String layout, String imageUri,
-			List<String> manaCost, String cardType, List<String> colors, List<String> keywords, String cardSet,
+	public Card(String id, String name, String layout, String imageUri,
+			String mana_cost, String type_line, String[] colors, String[] keywords, String set,
 			String rarity) {
 		super();
 		this.id = id;
-		this.cardName = cardName;
-		this.releaseDate = releaseDate;
+		this.name = name;
 		this.layout = layout;
 		this.imageUri = imageUri;
-		this.manaCost = manaCost;
-		this.cardType = cardType;
+		this.mana_cost = mana_cost;
+		this.type_line = type_line;
 		this.colors = colors;
 		this.keywords = keywords;
-		this.cardSet = cardSet;
+		this.set = set;
 		this.rarity = rarity;
 	}
 
 
 	public Card() {
+	}
+
+	
+	
+	public Map<String, String> getImage_uris() {
+		return image_uris;
+	}
+
+
+	public void setImage_uris(Map<String, String> image_uris) {
+		this.image_uris = image_uris;
+		this.imageUri = image_uris.get("normal");
 	}
 
 
@@ -53,23 +65,13 @@ public class Card {
 	}
 
 
-	public String getCardName() {
-		return cardName;
+	public String getName() {
+		return name;
 	}
 
 
-	public void setCardName(String cardName) {
-		this.cardName = cardName;
-	}
-
-
-	public LocalDate getReleaseDate() {
-		return releaseDate;
-	}
-
-
-	public void setReleaseDate(LocalDate releaseDate) {
-		this.releaseDate = releaseDate;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 
@@ -91,105 +93,76 @@ public class Card {
 	public void setImageUri(String imageUri) {
 		this.imageUri = imageUri;
 	}
+	
+	public void setImageUri(Map<String, String> image_uris) {
+		this.imageUri = image_uris.get("normal");
+	}
 
 
-	public List<String> getManaCost() {
-		return manaCost;
+	public String getManaCost() {
+		return mana_cost;
 	}
 	
-	public String getManaCostAsString() {
-		String formattedMana = "";
-		for(String mana : this.manaCost) {
-			formattedMana = formattedMana + "{"+ mana + "}";
-		}
-		return formattedMana;
-	}
-
-
-	public void setManaCost(List<String> manaCost) {
-		this.manaCost = manaCost;
+	public void setManaCost(String mana_cost) {
+		this.mana_cost = mana_cost;
 	}
 	
-	public void setManaCost(String manaCost) {
-		if(manaCost != null) {
-			String[] allMana = manaCost.split("\\{|\\}");
-			this.manaCost = new ArrayList<String>();
-	
-			for (String mana : allMana) {
-			    if (!mana.isEmpty()) {
-			        this.manaCost.add(mana);
-			    }
-			}
-		} else {
-			this.manaCost = null;
-		}
-	}
-
-
 	public String getCardType() {
-		return cardType;
+		return type_line;
 	}
 
 
-	public void setCardType(String cardType) {
-		this.cardType = cardType;
+	public void setCardType(String type_line) {
+		this.type_line = type_line;
 	}
 
 
-	public List<String> getColors() {
+	public String[] getColors() {
 		return colors;
 	}
 
 
-	public void setColors(List<String> colors) {
+	public void setColors(String[] colors) {
 		this.colors = colors;
 	}
 	
 	public void setColors(String colors) {
 		if(colors != null) {
-			String[] allColors = colors.split(",");
-			this.colors = new ArrayList<String>();
-	
-			for (String color : allColors) {
-			    this.colors.add(color);
-			}
+			this.colors = colors.split(",");
 		} else {
 			this.colors = null;
-		}
-	}
-
-
-	public List<String> getKeywords() {
-		return keywords;
-	}
-
-
-	public void setKeywords(List<String> keywords) {
-		this.keywords = keywords;
-	}
-	
-	public void setKeywords(String keywords) {
-		if(keywords != null) {
-			String[] allKeywords = keywords.split(",");
-			this.keywords = new ArrayList<String>();
-	
-			for (String keyword : allKeywords) {
-			    this.keywords.add(keyword);
-			}
-		} else {
-			this.keywords = null;
 		}
 		
 	}
 
 
-	public String getCardSet() {
-		return cardSet;
+	public String[] getKeywords() {
+		return keywords;
 	}
 
 
-	public void setCardSet(String cardSet) {
-		this.cardSet = cardSet;
+	public void setKeywords(String[] keywords) {
+		this.keywords = keywords;
+	}
+	
+	public void setKeywords(String keywords) {
+		if(keywords != null) {
+			this.keywords = keywords.split(",");
+		} else {
+			this.keywords = null;
+		}
+		
+		
+	}
+
+
+	public String getCardSet() {
+		return set;
+	}
+
+
+	public void setCardSet(String set) {
+		this.set = set;
 	}
 
 

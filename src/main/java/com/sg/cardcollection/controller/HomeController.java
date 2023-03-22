@@ -22,7 +22,7 @@ public class HomeController {
 	ProjectService service;
 	
 	@GetMapping("home")
-    public String displayStudents(Model model) {
+    public String displayHome(Model model) {
 		model.addAttribute("cardcollections", service.displayAllCardCollections());
         return "home";
     }
@@ -30,7 +30,6 @@ public class HomeController {
 	@GetMapping("view")
 	public String viewCollection(HttpServletRequest request, Model model) {
 		int id = Integer.parseInt(request.getParameter("id"));
-		int iteration = 4;
 		CardCollection cardCollection = service.getCollectionById(id);
 		model.addAttribute("allCards", service.getAllCardsFromCollectionId(id));
 		return "view";
@@ -44,6 +43,13 @@ public class HomeController {
 		cc.setCollectionName(name);
 		cc.setCollectionType(type);
 		service.addCollection(cc);
+		return "redirect:/home";
+	}
+	
+	@GetMapping("deleteCollection")
+	public String deleteCollection(HttpServletRequest request) {
+		int id = Integer.parseInt(request.getParameter("id"));
+		service.deleteCollectionById(id);
 		return "redirect:/home";
 	}
 	

@@ -46,6 +46,11 @@ public class ProjectService {
 		collectionDaoDB.addCollection(cc);
 		
 	}
+
+	public void deleteCollectionById(int id) {
+		collectionDaoDB.deleteCollectionById(id);
+		
+	}
 	
 	
 
