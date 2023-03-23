@@ -72,8 +72,11 @@ public class HomeController {
 	public String searchCards(HttpServletRequest request, HttpServletResponse response) {
 		String cardId = request.getParameter("cardId");
 		String collectionName = request.getParameter("collectionName");
-		
-		service.addCardToCollection(null, 0);
+		System.out.println(cardId);
+		int colId = service.getCollectionIdByName(collectionName);
+		Card card = service.getCardFromAPIById(cardId);
+		System.out.println(card.toString());
+		//service.addCardToCollection(null, 0);
 //		if(collectionName != "") {
 //			service.addCard(card);
 //			int collectionId = service.getCollectionIdByName(collectionName);

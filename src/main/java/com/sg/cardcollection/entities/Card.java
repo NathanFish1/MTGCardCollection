@@ -4,6 +4,8 @@ import java.sql.Array;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,18 +44,6 @@ public class Card {
 	public Card() {
 	}
 
-	
-	
-	public Map<String, String> getImage_uris() {
-		return image_uris;
-	}
-
-
-	public void setImage_uris(Map<String, String> image_uris) {
-		this.image_uris = image_uris;
-		this.imageUri = image_uris.get("normal");
-	}
-
 
 	public String getId() {
 		return id;
@@ -83,7 +73,25 @@ public class Card {
 	public void setLayout(String layout) {
 		this.layout = layout;
 	}
-
+	
+	public Map<String, String> getImage_uris() {
+		return image_uris;
+	}
+	
+	
+	public void setImage_uris(Map<String, String> image_uris) {
+		this.image_uris = image_uris;
+	}
+	
+	public void setImage_uris(String image_uris) {
+		Map<String, String> newMap = new HashMap<>();
+		String[] pairs = image_uris.split(",");
+		for (int i=0;i<pairs.length;i++) {
+		    String pair = pairs[i];
+		    String[] keyValue = pair.split(":");
+		    newMap.put(keyValue[0], keyValue[1]);
+		}
+	}
 
 	public String getImageUri() {
 		return imageUri;
@@ -173,6 +181,15 @@ public class Card {
 
 	public void setRarity(String rarity) {
 		this.rarity = rarity;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Card [id=" + id + ", name=" + name + ", layout=" + layout + ", image_uris=" + image_uris + ", imageUri="
+				+ imageUri + ", mana_cost=" + mana_cost + ", type_line=" + type_line + ", colors="
+				+ Arrays.toString(colors) + ", keywords=" + Arrays.toString(keywords) + ", set=" + set + ", rarity="
+				+ rarity + "]";
 	}
 	
 	
