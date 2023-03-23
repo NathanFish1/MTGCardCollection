@@ -68,7 +68,7 @@ public class CardDaoDB implements CardDao {
 	@Override
 	public Card addCard(Card card) {
 		final String INSERT_CARD = "INSERT INTO card "
-				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+				+ "VALUES(?,?,?,?,?,?,?,?,?,?)";
 		jdbcTemplate.update(INSERT_CARD, card.getId(),
 				card.getName(),
 				card.getLayout(),
@@ -84,7 +84,7 @@ public class CardDaoDB implements CardDao {
 
 	@Override
 	public Card addCardToCollection(Card card, int collectionId) {
-		final String INSERT_CARD_IN_COLLECTION = "INSERT INTO collection_card"
+		final String INSERT_CARD_IN_COLLECTION = "INSERT INTO collection_card "
 				+ "VALUES(?,?)";
 		jdbcTemplate.update(INSERT_CARD_IN_COLLECTION,
 				collectionId,
