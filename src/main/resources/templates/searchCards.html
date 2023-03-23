@@ -1,5 +1,8 @@
 <!doctype html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
   	<head>
     	<!-- Required meta tags -->
     	<meta charset="utf-8">
@@ -19,9 +22,55 @@
   	
   	<hr>
     <div class="results"><h2>Results</h2>
-    	<ul>
-		    <li th:each="card : ${cards}" th:text="${card.getName()}"></li>
-		</ul>
+    <div>
+    <!-- Loop over each card and create a form -->
+	<form th:each="card : ${cards}" action="searchCards" method="POST">
+	    <table class="table table-striped">
+	        <tbody>
+	            <tr>
+	            	<td><input type="text" name="cardId" th:value="${card.getId()}" hidden="hidden"></td>	            	
+	                <td><img th:src="${card.getImage_uris().get('small')}"/>
+	                <td>
+	                    <select class="form-control" id="collectionName" name="collectionName">
+	                        <option value="">Select Collection</option>
+	                        <!-- Loop over each collection and create an option -->
+	                        <option th:each="collection : ${listOfCollections}"
+	                            th:value="${collection.getCollectionName()}"
+	                            th:text="${collection.getCollectionName()}"></option>
+	                    </select>
+	                </td>
+	                <td><button type="submit" class="btn btn-primary">Add</button></td>
+	            </tr>
+	        </tbody>
+	    </table>
+	</form>
+    
+    </div>
+    
+    
+    <div class="container">
+	    <div class="row m-4 border border-dark">
+	        <div class="col text-center m-3">
+	            <table class="table table-striped">
+	                <tbody>
+	                <tr th:each="card : ${cards}">
+		            	<td><img th:src="${card.getImage_uris().get('small')}"/></td>
+		                <td><select class="form-control" id="collectionName" name="collectionName">
+							<option value="">Select Collection</option>
+						    <option th:each="collection : ${listOfCollections}"
+						                th:value="${collection.getCollectionName()}"
+						                th:text="${collection.getCollectionName()}"></option>
+						    </select>
+						</td>
+						    
+						<!-- Uses the name attribute in the select clause, given a request to find its selected value -->
+		                <td><a href="#" th:href="@{/searchCards(cardId=${card.getId()},collectionName=${#httpServletRequest.getParameter('collectionName')})}">Add</a></td>
+	                </tr>
+	                </tbody>
+	            </table>
+	        </div>
+	    </div>
+    </div>
     </div>
     <hr> 
   	

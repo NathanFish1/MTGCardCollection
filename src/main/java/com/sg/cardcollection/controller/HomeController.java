@@ -1,13 +1,16 @@
 package com.sg.cardcollection.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -58,11 +61,39 @@ public class HomeController {
 	@GetMapping("/search")
 	public String searchCards(@RequestParam("cardName") String cardName, Model model) {
 		service.addToCurrentSearchItems(cardName);
+		List<CardCollection> listCollections = service.getAllCardCollections();
 	    List<Card> cards = service.displayCurrentSearchItems();
 	    model.addAttribute("cards", cards);
+	    model.addAttribute("listOfCollections", listCollections);
 	    return "searchCards";
 	}
 	
+	@PostMapping("searchCards")
+	public String searchCards(HttpServletRequest request, HttpServletResponse response) {
+		String cardId = request.getParameter("cardId");
+		String collectionName = request.getParameter("collectionName");
+		
+		service.addCardToCollection(null, 0);
+//		if(collectionName != "") {
+//			service.addCard(card);
+//			int collectionId = service.getCollectionIdByName(collectionName);
+//			service.addCardToCollection(card, collectionId);
+//		}
+//		String previousPageUrl = request.getHeader("referer");
+//
+//	    // Redirect the user to the previous page URL
+//	    try {
+//	        response.sendRedirect(previousPageUrl);
+//	    } catch (IOException e) {
+//	        e.printStackTrace();
+//	    }
+//
+//	    // Return null to indicate that the response has been handled
+//	    return null;
+		return "redirect:/home";
+		
+		
+	}
 	//display all collections, have an add, view, remove option for this page. Add at the bottom, view and delete with each collection,
 	//Click on view to bring up collection html with data based on that card data.
 }

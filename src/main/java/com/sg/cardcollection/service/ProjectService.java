@@ -60,6 +60,30 @@ public class ProjectService {
 	public List<Card> displayCurrentSearchItems() {
 		return cardDaoDB.displayCurrentSearchItems();
 	}
+
+	public List<CardCollection> getAllCardCollections() {
+		return collectionDaoDB.getAllCollections();
+	}
+
+	public void addCard(Card card) {
+		cardDaoDB.addCard(card);
+		
+	}
+
+	public int getCollectionIdByName(String collectionName) {
+		List<CardCollection> list = collectionDaoDB.getAllCollections();
+		for (CardCollection col : list) {
+			if(col.getCollectionName().equals(collectionName)) {
+				return col.getId();
+			}
+		}
+		return 0;
+	}
+
+	public void addCardToCollection(Card card, int collectionId) {
+		cardDaoDB.addCardToCollection(card, collectionId);
+		
+	}
 	
 	
 
