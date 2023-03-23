@@ -16,14 +16,7 @@
     
     <body>
     <p>Its the view screen</p>
-    <div class="searchBar">
-    	<form action="#" th:action="@{/cards/named(query=${query})}" method="get">
-		    <input type="text" id="search-bar" name="query" placeholder="Search..." autocomplete="off">
-		    <button type="submit">Search</button>
-		</form>
-		<ul id="autocomplete-list"></ul>
-		
-    </div>
+    
     
     <div class="row">
 	  <div class="col-md-3" th:each="card, iteration : ${allCards}">
@@ -45,33 +38,6 @@
     
     
     <!-- Optional JavaScript -->
-    <script th:inline="javascript">
-    var searchInput = document.getElementById("search-bar");
-    searchInput.addEventListener("input", function() {
-        var query = searchInput.value;
-        if (query.length >= 2) {
-            fetch("https://api.scryfall.com/cards/autocomplete?q=" + query)
-                .then(response => response.json())
-                .then(data => {
-                    var autocompleteList = document.getElementById("autocomplete-list");
-                    autocompleteList.innerHTML = "";
-                    data.data.forEach(function(item) {
-                        var option = document.createElement("li");
-                        option.innerText = item;
-                        option.addEventListener("click", function() {
-                            searchInput.value = item;
-                            autocompleteList.innerHTML = "";
-                            document.forms[0].submit();
-                        });
-                        autocompleteList.appendChild(option);
-                    });
-                });
-        } else {
-            var autocompleteList = document.getElementById("autocomplete-list");
-            autocompleteList.innerHTML = "";
-        }
-    });
-	</script>
     
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

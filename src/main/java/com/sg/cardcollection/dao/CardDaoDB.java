@@ -1,9 +1,17 @@
 package com.sg.cardcollection.dao;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +20,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.sg.cardcollection.entities.Card;
 
 @Repository
@@ -19,6 +31,11 @@ public class CardDaoDB implements CardDao {
 	
 	@Autowired
 	JdbcTemplate jdbcTemplate;
+	
+	List<Card> currentlySearched = new ArrayList<>();
+	
+	public final String BASEAPIURL = "https://api.scryfall.com";
+	public final String APISEARCHCARDURL = "https://api.scryfall.com/cards/search?q=";
 	
 	
 	@Override
@@ -119,6 +136,62 @@ public class CardDaoDB implements CardDao {
 			return card;
 		}
 		
+	}
+
+	@Override
+	public void addToCurrentSearchItems(String searchedCard) {	
+		//Based on Coding with John YouTube tutorial https://www.youtube.com/watch?v=9oq7Y8n1t00
+		
+		//refresh searched values
+		currentlySearched.clear();
+		
+		
+		try {
+			//encode the string search input, so it can be used to query the API database
+			String encodedQuery = URLEncoder.encode(searchedCard, "UTF-8");
+			Thread.sleep(100); //Keeping to rules of API, no overloading of queries.
+			HttpRequest getRequest = HttpRequest.newBuilder()
+					.uri(new URI(APISEARCHCARDURL+encodedQuery))
+					.header("User-Agent", "Java HttpClient")
+	                .header("Accept", "application/json")
+	                //.header("Origin", "https://your-domain.com") - keeping with CORS
+	                .GET()
+	                .build();
+			
+			HttpClient httpClient = HttpClient.newHttpClient();
+			HttpResponse<String> getResponse= httpClient.send(getRequest, HttpResponse.BodyHandlers.ofString()); 
+		
+			//for list of cards
+			Gson gson = new Gson();
+			String responseBody = getResponse.body();
+			System.out.println(getResponse.body());
+			JsonObject responseJson = gson.fromJson(responseBody, JsonObject.class);
+			JsonArray data = responseJson.getAsJsonArray("data");
+	
+			//do first 20 only
+			if(data != null) {
+				for (JsonElement element : data) {
+					if(currentlySearched.size() < 20) {
+						Card card = gson.fromJson(element, Card.class);
+						currentlySearched.add(card);
+					} else {
+						break;
+					}
+				}
+			}
+			
+		} catch (IOException | InterruptedException | URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+	}
+
+	@Override
+	public List<Card> displayCurrentSearchItems() {
+		return currentlySearched;
 	}
 
 }

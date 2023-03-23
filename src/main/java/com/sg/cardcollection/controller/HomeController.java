@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sg.cardcollection.entities.Card;
 import com.sg.cardcollection.entities.CardCollection;
 import com.sg.cardcollection.entities.CardCollection.CollectionType;
 import com.sg.cardcollection.service.ProjectService;
@@ -51,6 +53,14 @@ public class HomeController {
 		int id = Integer.parseInt(request.getParameter("id"));
 		service.deleteCollectionById(id);
 		return "redirect:/home";
+	}
+	
+	@GetMapping("/search")
+	public String searchCards(@RequestParam("cardName") String cardName, Model model) {
+		service.addToCurrentSearchItems(cardName);
+	    List<Card> cards = service.displayCurrentSearchItems();
+	    model.addAttribute("cards", cards);
+	    return "searchCards";
 	}
 	
 	//display all collections, have an add, view, remove option for this page. Add at the bottom, view and delete with each collection,

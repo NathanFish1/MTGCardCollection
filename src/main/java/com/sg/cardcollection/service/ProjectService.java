@@ -51,6 +51,15 @@ public class ProjectService {
 		collectionDaoDB.deleteCollectionById(id);
 		
 	}
+
+	public void addToCurrentSearchItems(String searchedCard) {
+		cardDaoDB.addToCurrentSearchItems(searchedCard);
+		
+	}
+
+	public List<Card> displayCurrentSearchItems() {
+		return cardDaoDB.displayCurrentSearchItems();
+	}
 	
 	
 

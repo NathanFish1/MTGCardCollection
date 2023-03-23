@@ -23,4 +23,8 @@ public interface CardDao {
     void deleteCard(String id);
     
     void deleteCardFromCollection(String cardId, int CollectionId);
+
+	void addToCurrentSearchItems(String searchedCard);
+
+	List<Card> displayCurrentSearchItems();
 }
