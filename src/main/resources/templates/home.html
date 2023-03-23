@@ -16,19 +16,47 @@
           	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
           	
         <style>
-        	body {background-color: powderblue;}
+        	body {background-color: #34568B;
+        	font-family: Georgia, serif;}
         	
         	h1 {
-			  text-align: center;
+			  	text-align: center;
+			  	position: relative;
+			  	top: 30px;
+			  	margin-bottom: 50px;
+			  	color: white;
+			}
+			
+			
+			.searchBarDiv{
+				margin: 0 auto;
+        		text-align: center;
 			}	
+			
+			.searchBar{
+				width: 500px;
+			}
+			
+			.container{
+				background-color: #DD4124;
+			}
+			#outter1, #outter2 {
+				background-color: #F7CAC9;
+			}
+			#inner1, #inner2 {
+				background-color: white;
+				text-align: center;
+				
+			}
+			
         </style>  	
     </head>
     
     <body>
     <h1>MTG CARD COLLECTION ORGANISER</h1>
     <div class="container">
-	    <div class="row m-4 border border-dark">
-	        <div class="col text-center m-3">
+	    <div class="row m-4 border border-dark" id="outter1">
+	        <div class="col text-center m-3" id="inner1">
 	            <table class="table table-striped">
 	                <thead>
 	                <tr>
@@ -52,9 +80,10 @@
 	        </div>
 	    </div>
     </div>
-    <div class="row m-4 border border-dark">
-	    <div class="col-3 text-center m-3">
-	        <span class="h3">Add Card Collection</span>
+    <div class="container">
+    <div class="row m-4 border border-dark" id="outter2">
+	    <div class="col-3 text-center m-3" id="inner2">
+	        <h3>Add Card Collection</h3>
 	    </div>
 	    <div class="col-7 text-center m-3">
 	        <form action="addCollection" method="POST">
@@ -82,9 +111,11 @@
 	        </form>
 	    </div>
 	</div>
+	</div>
+	
 	<div class="searchBarDiv">
 	<form th:action="@{/search}" method="get">
-	    <input type="text" name="cardName" placeholder="Search for a card...">
+	    <input type="text" name="cardName" placeholder="Search for a card..." class="searchBar">
 	    <button type="submit">Search</button>
 	</form>
     </div>

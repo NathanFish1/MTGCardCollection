@@ -36,6 +36,7 @@ public class HomeController {
 	public String viewCollection(HttpServletRequest request, Model model) {
 		int id = Integer.parseInt(request.getParameter("id"));
 		CardCollection cardCollection = service.getCollectionById(id);
+		model.addAttribute("collectionName", service.getCollectionById(id).getCollectionName());
 		model.addAttribute("allCards", service.getAllCardsFromCollectionId(id));
 		return "view";
 	}

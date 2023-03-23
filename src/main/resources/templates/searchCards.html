@@ -14,21 +14,55 @@
     	<link rel="stylesheet" href="bootstrap.css">
     	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
   		<style>
-        	body {background-color: powderblue;}
+        	body {background-color: #34568B;
+        	font-family: Georgia, serif;}
+        	
+        	.searchBarDiv{
+				margin-top: 30px;
+        		text-align: center;
+			}	
+			
+			.searchBar{
+				width: 500px;
+			}
+			
+			h1 {
+			  	text-align: center;
+			  	position: relative;
+			  	top: 10px;
+			  	margin-bottom: 50px;
+			  	color: white;
+			}
+			
+			hr {
+			  border: none;
+			  height: 3px;
+			  /* Set the hr color */
+			  color: #333;  /* old IE */
+			  background-color: #333;  /* Modern Browsers */
+			}
+			
+			.tableResults {
+			
+				background-color: #f7f2a8;
+			}
+        	
         </style>
   	</head>
   
   	<body>
   	<div class="searchBarDiv">
   	<form th:action="@{/search}" method="get">
-	    <input type="text" name="cardName" placeholder="Search for a card...">
+	    <input type="text" name="cardName" placeholder="Search for a card..." class="searchBar">
 	    <button type="submit">Search</button>
 	</form>
 	</div>
   	
   	<hr>
-    <div class="results"><h2>Results</h2></div>
-    <div>
+    <div class="results"><h1>Results</h1></div>
+    
+    <hr>
+    <div class="tableResults">
     <!-- Loop over each card and create a form -->
 	<form th:each="card : ${cards}" action="searchCards" method="POST">
 	    <table class="table table-striped">
