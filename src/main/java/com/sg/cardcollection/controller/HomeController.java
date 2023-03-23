@@ -72,25 +72,29 @@ public class HomeController {
 	public String searchCards(HttpServletRequest request, HttpServletResponse response) {
 		String cardId = request.getParameter("cardId");
 		String collectionName = request.getParameter("collectionName");
+		int colId = service.getCollectionIdByName(collectionName);
+		Card card = service.getCardFromAPIById(cardId);
+		card.setImageUri(card.getImage_uris());
+		if(collectionName != "") {
+			service.addCard(card);
+			int collectionId = service.getCollectionIdByName(collectionName);
+			service.addCardToCollection(card, collectionId);
+			return "redirect:/home";
+		} else {
+			String previousPageUrl = request.getHeader("referer");
+	
+		    // Redirect the user to the previous page URL
+		    try {
+		        response.sendRedirect(previousPageUrl);
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		    }
+		}
 		
-		service.addCardToCollection(null, 0);
-//		if(collectionName != "") {
-//			service.addCard(card);
-//			int collectionId = service.getCollectionIdByName(collectionName);
-//			service.addCardToCollection(card, collectionId);
-//		}
-//		String previousPageUrl = request.getHeader("referer");
-//
-//	    // Redirect the user to the previous page URL
-//	    try {
-//	        response.sendRedirect(previousPageUrl);
-//	    } catch (IOException e) {
-//	        e.printStackTrace();
-//	    }
-//
-//	    // Return null to indicate that the response has been handled
-//	    return null;
-		return "redirect:/home";
+
+	    // Return null to indicate that the response has been handled
+	    return null;
+		
 		
 		
 	}

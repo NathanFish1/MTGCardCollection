@@ -84,6 +84,10 @@ public class ProjectService {
 		cardDaoDB.addCardToCollection(card, collectionId);
 		
 	}
+
+	public Card getCardFromAPIById(String cardId) {
+		return cardDaoDB.getCardFromAPIById(cardId);
+	}
 	
 	
 

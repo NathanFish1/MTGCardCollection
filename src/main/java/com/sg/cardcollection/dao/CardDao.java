@@ -27,4 +27,6 @@ public interface CardDao {
 	void addToCurrentSearchItems(String searchedCard);
 
 	List<Card> displayCurrentSearchItems();
+
+	Card getCardFromAPIById(String cardId);
 }

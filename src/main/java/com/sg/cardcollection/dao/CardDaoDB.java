@@ -36,6 +36,7 @@ public class CardDaoDB implements CardDao {
 	
 	public final String BASEAPIURL = "https://api.scryfall.com";
 	public final String APISEARCHCARDURL = "https://api.scryfall.com/cards/search?q=";
+	public final String APISEARCHBYID = "https://api.scryfall.com/cards/";
 	
 	
 	@Override
@@ -67,7 +68,7 @@ public class CardDaoDB implements CardDao {
 	@Override
 	public Card addCard(Card card) {
 		final String INSERT_CARD = "INSERT INTO card "
-				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+				+ "VALUES(?,?,?,?,?,?,?,?,?,?)";
 		jdbcTemplate.update(INSERT_CARD, card.getId(),
 				card.getName(),
 				card.getLayout(),
@@ -83,7 +84,7 @@ public class CardDaoDB implements CardDao {
 
 	@Override
 	public Card addCardToCollection(Card card, int collectionId) {
-		final String INSERT_CARD_IN_COLLECTION = "INSERT INTO collection_card"
+		final String INSERT_CARD_IN_COLLECTION = "INSERT INTO collection_card "
 				+ "VALUES(?,?)";
 		jdbcTemplate.update(INSERT_CARD_IN_COLLECTION,
 				collectionId,
@@ -164,7 +165,7 @@ public class CardDaoDB implements CardDao {
 			//for list of cards
 			Gson gson = new Gson();
 			String responseBody = getResponse.body();
-			System.out.println(getResponse.body());
+			
 			JsonObject responseJson = gson.fromJson(responseBody, JsonObject.class);
 			JsonArray data = responseJson.getAsJsonArray("data");
 	
@@ -192,6 +193,36 @@ public class CardDaoDB implements CardDao {
 	@Override
 	public List<Card> displayCurrentSearchItems() {
 		return currentlySearched;
+	}
+
+	@Override
+	public Card getCardFromAPIById(String cardId) {
+		try {
+			//encode the string search input, so it can be used to query the API database
+			Thread.sleep(100); //Keeping to rules of API, no overloading of queries.
+			HttpRequest getRequest = HttpRequest.newBuilder()
+					.uri(new URI(APISEARCHBYID+cardId))
+					.header("User-Agent", "Java HttpClient")
+	                .header("Accept", "application/json")
+	                //.header("Origin", "https://your-domain.com") - keeping with CORS
+	                .GET()
+	                .build();
+			
+			HttpClient httpClient = HttpClient.newHttpClient();
+			HttpResponse<String> getResponse= httpClient.send(getRequest, HttpResponse.BodyHandlers.ofString()); 
+		
+			//for list of cards
+			Gson gson = new Gson();
+			String responseBody = getResponse.body();
+			
+			Card card = gson.fromJson(responseBody, Card.class);
+			return card;
+						
+		} catch (IOException | InterruptedException | URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

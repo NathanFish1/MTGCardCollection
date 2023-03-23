@@ -1,5 +1,6 @@
 package com.sg.cardcollection.entities;
 
+import java.util.Objects;
 
 public class CardCollection {
 	
@@ -46,6 +47,24 @@ public class CardCollection {
 
 	public void setCollectionType(CollectionType collectionType) {
 		this.collectionType = collectionType;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(collectionName, collectionType, id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CardCollection other = (CardCollection) obj;
+		return Objects.equals(collectionName, other.collectionName) && collectionType == other.collectionType
+				&& id == other.id;
 	}
 	
 	
